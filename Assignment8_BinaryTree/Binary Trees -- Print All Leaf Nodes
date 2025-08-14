@@ -1,0 +1,52 @@
+public class Main {
+
+    public static void main(String[] args) {
+        BinaryTree bt = new BinaryTree();
+        bt.printLeaves();
+    }
+
+    private static class BinaryTree {
+        private static class Node {
+            int data;
+            Node left;
+            Node right;
+
+            Node(int data) {
+                this.data = data;
+            }
+        }
+
+        private Node root;
+
+        public BinaryTree() {
+            // Manually creating the tree
+            root = new Node(1);
+            root.left = new Node(2);
+            root.right = new Node(3);
+
+            root.left.left = new Node(4);
+            root.left.right = new Node(5);
+
+            root.right.left = new Node(6);
+            root.right.right = new Node(7);
+        }
+
+        // Public method to print leaf nodes
+        public void printLeaves() {
+            printLeaves(this.root);
+        }
+
+        // Recursive helper to print leaves from left to right
+        private void printLeaves(Node node) {
+            if (node == null) return;
+
+            if (node.left == null && node.right == null) {
+                System.out.print(node.data + " ");
+                return;
+            }
+
+            printLeaves(node.left);
+            printLeaves(node.right);
+        }
+    }
+}
