@@ -1,0 +1,27 @@
+#Consider we have given Array of elements a1, a2, a3, a4. at every step, we merge two-element. 
+
+#let say  a1 + a2 =a12
+
+#now the remaining elements would be a12, a3, a4 and we can again merge the two-element   a3+a4=a34 .
+#now the remaining elements would be a12, a34 .
+
+#finally, we will add the last two elements to get an a1234. 
+#your task is to find the minimum sum of all the pairs getting added.
+
+
+
+public static void main(String[] args){
+    int []arr={2,3,4,2,3};
+    PriorityQueue<Integer> pq=new PriorityQueue<>();
+    for(int i=0; i<arr.length;i++){
+        pq.add(arr[i]);
+    }
+    int sum=0;
+    while(pq.size()>1){
+        int a=pq.poll();
+        int b=pq.poll();
+        sum +=(a+b);
+        pq.add(a+b);
+    }
+    System.out.println(sum);
+}
