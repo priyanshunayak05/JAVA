@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main {
+	static final int MOD = 1000000007;
+    public static void main(String args[]) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int []arr=new int[n];
+		for(int i=0;i<n;i++){
+			arr[i]=sc.nextInt();
+		}
+		subarray(arr,n);
+
+    }
+	public static void subarray(int []arr,int n){
+		long sum=0;
+		for(int left=0;left<n;left++){
+			HashSet<Integer>set=new HashSet<>();
+			for(int right=left;right<n;right++){
+				if (set.contains(arr[right])) break;
+			set.add(arr[right]);
+			sum +=(right-left +1 );
+		}
+		}
+	
+		System.out.println(sum );
+	}
+}
