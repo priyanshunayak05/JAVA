@@ -1,0 +1,21 @@
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+		Scanner sc=new Scanner(System.in);
+		int k=sc.nextInt();
+		int n=sc.nextInt();
+		int index=0;
+		long arr[]=new long[k*n];
+		for(int i=0;i<k;i++){
+			for(int j=0;j<n;j++){
+				arr[index++]=sc.nextLong();
+
+			}
+		}
+		Arrays.sort(arr);
+		for(long ans:arr){
+			System.out.print(ans+" ");
+		}
+
+    }
+}
