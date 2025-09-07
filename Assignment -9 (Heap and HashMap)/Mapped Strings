@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+    
+    
+    static void decode(String digits, int index, String current, List<String> result) {
+        
+        if (index == digits.length()) {
+            result.add(current);
+            return;
+        }
+
+        // Take one digit
+        int oneDigit = digits.charAt(index) - '0';
+        if (oneDigit >= 1 && oneDigit <= 9) {
+            char letter = (char) ('A' + oneDigit - 1); // map 1 -> A
+            decode(digits, index + 1, current + letter, result);
+        }
+
+        // Take two digits (only if index+1 is in range)
+        if (index + 1 < digits.length()) {
+            int twoDigits = Integer.parseInt(digits.substring(index, index + 2));
+            if (twoDigits >= 10 && twoDigits <= 26) {
+                char letter = (char) ('A' + twoDigits - 1);
+                decode(digits, index + 2, current + letter, result);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String number = sc.nextLine(); 
+
+        List<String> result = new ArrayList<>();
+        decode(number, 0, "", result);
+
+        Collections.sort(result); 
+        for (String str : result) {
+            System.out.println(str);
+        }
+    }
+}
