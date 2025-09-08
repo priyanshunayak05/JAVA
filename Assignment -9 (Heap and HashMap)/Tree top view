@@ -1,0 +1,123 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null || line.trim().isEmpty()) return;
+
+       
+        String[] arr = line.trim().split("\\s+");
+        BinaryTree bt = new BinaryTree(arr);
+
+        bt.topview();
+        System.out.println();
+    }
+}
+
+class BinaryTree {
+    private class Node {
+        int data;
+        Node left, right;
+        Node(int data) { this.data = data; }
+    }
+
+    Node root;
+
+    
+    BinaryTree(String[] arr) {
+        construct(arr);
+    }
+
+    
+    private void construct(String[] arr) {
+        if (arr.length == 0) return;
+
+        Queue<Node> q = new LinkedList<>();
+        int i = 0;
+
+      
+        if (!arr[0].equals("-1")) {
+            root = new Node(Integer.parseInt(arr[0]));
+            q.add(root);
+        } else {
+            root = null;
+            return;
+        }
+        i = 1;
+
+       
+        while (!q.isEmpty() && i < arr.length) {
+            Node parent = q.poll();
+
+            
+            if (i < arr.length && !arr[i].equals("-1")) {
+                parent.left = new Node(Integer.parseInt(arr[i]));
+                q.add(parent.left);
+            }
+            i++;
+
+            // right child
+            if (i < arr.length && !arr[i].equals("-1")) {
+                parent.right = new Node(Integer.parseInt(arr[i]));
+                q.add(parent.right);
+            }
+            i++;
+        }
+    }
+
+    public void topview() {
+        verticalTraversalTop(this.root);
+    }
+
+   
+    private void verticalTraversalTop(Node root) {
+        if (root == null) return;
+
+        
+        Map<Integer, Integer> map = new TreeMap<>();
+
+    
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            Node node = p.node;
+            int hd = p.hd;
+
+            if (!map.containsKey(hd)) {
+                map.put(hd, node.data);
+            }
+
+            if (node.left != null) q.add(new Pair(node.left, hd - 1));
+            if (node.right != null) q.add(new Pair(node.right, hd + 1));
+        }
+
+       
+        for (int val : map.values()) {
+            System.out.print(val + " ");
+        }
+    }
+
+    private class Pair {
+        Node node;
+        int hd;
+        Pair(Node n, int h) { node = n; hd = h; }
+    }
+
+    
+    public void display() {
+        display_tree(this.root);
+    }
+
+    private void display_tree(Node root) {
+        if (root == null) return;
+        String str = (root.left != null ? root.left.data : "END") + " <= " + root.data + " => " +
+                     (root.right != null ? root.right.data : "END");
+        System.out.println(str);
+        display_tree(root.left);
+        display_tree(root.right);
+    }
+}
