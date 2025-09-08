@@ -1,0 +1,85 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] arr = br.readLine().split(" ");
+        BinaryTree bt = new BinaryTree(arr);
+        bt.bottomView();
+    }
+}
+
+class BinaryTree {
+    private class Node {
+        int data;
+        Node left, right;
+        Node(int data) {
+            this.data = data;
+        }
+    }
+
+    private Node root;
+
+    BinaryTree(String[] arr) {
+        if (arr.length == 0 || arr[0].equals("-1")) return;
+
+        root = new Node(Integer.parseInt(arr[0]));
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+
+        int i = 1;
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+
+            // left child
+            if (i < arr.length && !arr[i].equals("-1")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.left);
+            }
+            i++;
+
+            // right child
+            if (i < arr.length && !arr[i].equals("-1")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.right);
+            }
+            i++;
+        }
+    }
+
+    public void bottomView() {
+        if (root == null) return;
+
+        // Map hd -> node value
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            Node node = p.node;
+            int hd = p.hd;
+
+            // update value at horizontal distance (last seen node at this hd)
+            map.put(hd, node.data);
+
+            if (node.left != null) q.add(new Pair(node.left, hd - 1));
+            if (node.right != null) q.add(new Pair(node.right, hd + 1));
+        }
+
+        // Print bottom view
+        for (int val : map.values()) {
+            System.out.print(val + " ");
+        }
+    }
+
+    private class Pair {
+        Node node;
+        int hd;
+        Pair(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
+        }
+    }
+}
