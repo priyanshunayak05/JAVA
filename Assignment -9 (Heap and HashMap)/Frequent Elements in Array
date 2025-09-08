@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+    
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(
+            (a, b) -> freqMap.get(b) - freqMap.get(a)
+        );
+
+        maxHeap.addAll(freqMap.keySet());
+
+        List<Integer> topK = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            topK.add(maxHeap.poll());
+        }
+
+
+        Collections.sort(topK);
+
+        for (int num : topK) {
+            System.out.print(num + " ");
+        }
+    }
+}
