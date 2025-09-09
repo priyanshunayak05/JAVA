@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+		Scanner sc=new Scanner(System.in);
+		int q=sc.nextInt();
+		int k=sc.nextInt();
+		PriorityQueue<Long>max=new PriorityQueue<>(Collections.reverseOrder());
+
+		while(q-->0){
+			int type=sc.nextInt();
+
+			if(type==1){
+				long x=sc.nextLong();
+				long y=sc.nextLong();
+
+
+				long dis=x*x +y*y;
+
+				if(max.size()<k){
+					max.add(dis);
+				}
+				else{
+					if(dis<max.peek()){
+						max.poll();
+						max.add(dis);
+					}
+				}
+			}
+			else if(type ==2){
+				System.out.println(max.peek());
+			}
+		}
+
+    }
+}
