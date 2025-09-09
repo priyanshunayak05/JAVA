@@ -1,0 +1,66 @@
+import java.util.*;
+
+public class Main{
+    static class Node{
+        int val;
+        Node left;
+        Node right;
+        Node(int v){val=v;}
+    }
+    static class Pair{
+        Node node;
+        int hd;
+        Pair(Node n,int h){node=n;hd=h;}
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        if(!sc.hasNextInt()){
+            sc.close();
+            return;
+        }
+        int N=sc.nextInt();
+        List<Integer> vals=new ArrayList<>();
+        while(sc.hasNextInt()) vals.add(sc.nextInt());
+        sc.close();
+        if(vals.size()==0){
+            System.out.println();
+            return;
+        }
+        int m=vals.size();
+        Node[] nodes=new Node[m];
+        for(int i=0;i<m;i++){
+            int v=vals.get(i);
+            if(v!=-1) nodes[i]=new Node(v);
+        }
+        for(int i=0;i<m;i++){
+            if(nodes[i]==null) continue;
+            int li=2*i+1;
+            int ri=2*i+2;
+            if(li<m) nodes[i].left=nodes[li];
+            if(ri<m) nodes[i].right=nodes[ri];
+        }
+        if(nodes[0]==null){
+            System.out.println();
+            return;
+        }
+        TreeMap<Integer,ArrayList<Integer>> map=new TreeMap<>();
+        Deque<Pair> st=new ArrayDeque<>();
+        st.push(new Pair(nodes[0],0));
+        while(!st.isEmpty()){
+            Pair p=st.pop();
+            Node cur=p.node;
+            int hd=p.hd;
+            map.computeIfAbsent(hd,k->new ArrayList<>()).add(cur.val);
+            if(cur.right!=null) st.push(new Pair(cur.right,hd+1));
+            if(cur.left!=null) st.push(new Pair(cur.left,hd-1));
+        }
+        StringBuilder sb=new StringBuilder();
+        for(Map.Entry<Integer,ArrayList<Integer>> e:map.entrySet()){
+            for(int v:e.getValue()){
+                sb.append(v).append(' ');
+            }
+        }
+        if(sb.length()>0 && sb.charAt(sb.length()-1)==' ') sb.deleteCharAt(sb.length()-1);
+        System.out.println(sb.toString());
+    }
+}
