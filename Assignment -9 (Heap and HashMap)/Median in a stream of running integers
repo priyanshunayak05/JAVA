@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int t = sc.nextInt(); 
+        while (t-- > 0) {
+            int n = sc.nextInt(); 
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            printRunningMedian(arr, n);
+            System.out.println();
+        }
+        sc.close();
+    }
+
+    private static void printRunningMedian(int[] arr, int n) {
+     
+        PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder());
+
+        PriorityQueue<Integer> right = new PriorityQueue<>();
+
+        for (int i = 0; i < n; i++) {
+            int num = arr[i];
+
+          
+            if (left.isEmpty() || num <= left.peek()) {
+                left.add(num);
+            } else {
+                right.add(num);
+            }
+
+          
+            if (left.size() > right.size() + 1) {
+                right.add(left.poll());
+            } else if (right.size() > left.size()) {
+                left.add(right.poll());
+            }
+
+    
+            int median;
+            if (left.size() == right.size()) {
+                median = (left.peek() + right.peek()) / 2;
+            } else {
+                median = left.peek();
+            }
+
+            System.out.print(median + " ");
+        }
+    }
+}
