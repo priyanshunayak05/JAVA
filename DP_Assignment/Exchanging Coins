@@ -1,0 +1,22 @@
+import java.util.*;
+
+public class Main {
+    static Map<Long, Long> memo = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        System.out.println(maxGold(n));
+    }
+
+    static long maxGold(long n) {
+        if (n == 0) return 0;
+        if (memo.containsKey(n)) return memo.get(n);
+
+        long exchange = maxGold(n / 2) + maxGold(n / 3) + maxGold(n / 4);
+        long ans = Math.max(n, exchange);
+
+        memo.put(n, ans);
+        return ans;
+    }
+}
