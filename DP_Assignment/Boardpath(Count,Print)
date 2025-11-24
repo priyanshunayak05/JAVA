@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+
+        // Print all paths
+        printPaths(0, N, M, "");
+		System.out.println();
+
+        // Print count of paths
+        System.out.println(countWays(0, N, M));
+    }
+
+    // Part A: Count ways (Recursive)
+    static int countWays(int curr, int end, int faces) {
+        if (curr == end) {
+            return 1;
+        }
+        if (curr > end) {
+            return 0;
+        }
+
+        int ways = 0;
+        for (int dice = 1; dice <= faces; dice++) {
+            ways += countWays(curr + dice, end, faces);
+        }
+        return ways;
+    }
+
+    // Part B: Print paths (Recursive)
+    static void printPaths(int curr, int end, int faces, String path) {
+        if (curr == end) {
+            System.out.print(path + " ");
+            return;
+        }
+        if (curr > end) {
+            return;
+        }
+
+        for (int dice = 1; dice <= faces; dice++) {
+            printPaths(curr + dice, end, faces, path + dice);
+        }
+    }
+}
